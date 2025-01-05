@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject Selection and Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Subject Selection and Payment</h1>
+    
+    <!-- Step 1: Collect User Details -->
+    <div id="user-details">
+        <h2>Enter Your Details</h2>
+        <label for="name">Name:</label>
+        <input type="text" id="name" required><br><br>
+        <label for="phone">Phone Number:</label>
+        <input type="text" id="phone" required><br><br>
+        <button onclick="proceedToSubjects()">Next</button>
+    </div>
+
+    <!-- Step 2: Subject Selection -->
+    <div id="subject-selection" class="hidden">
+        <h2>Select Subjects</h2>
+        <label><input type="checkbox" value="199" onchange="calculateTotal()"> APM - ₹199</label><br>
+        <label><input type="checkbox" value="120" onchange="calculateTotal()"> PHY - ₹120</label><br>
+        <label><input type="checkbox" value="90" onchange="calculateTotal()"> PPS - ₹90</label><br>
+        <label><input type="checkbox" value="60" onchange="calculateTotal()"> LADY - ₹60</label><br><br>
+        <p>Total Price: ₹<span id="total-price">0</span></p>
+        <button onclick="proceedToPayment()">Next</button>
+    </div>
+
+    <!-- Step 3: Payment -->
+    <div id="payment-step" class="hidden">
+        <h2>Payment</h2>
+        <p>Scan the QR code below to make the payment:</p>
+        <img src="C:\Users\melwi\Downloads\WhatsApp Image 2025-01-05 at 19.52.41_3a99fd9c.jpg" alt="QR Code" width="300"><br><br>
+        <button onclick="confirmPayment()">I have completed the payment</button>
+    </div>
+
+    <!-- Step 4: Redirect to Telegram Links -->
+    <div id="telegram-links" class="hidden">
+        <h2>Access Your Telegram Links</h2>
+        <p><strong>PHY:</strong> <a href="https://t.me/+V1UDIfNXPMxhMWVl" target="_blank">https://t.me/+V1UDIfNXPMxhMWVl</a></p>
+        <p><strong>APM:</strong> <a href="https://t.me/+UapHG23utrc5MDJl" target="_blank">https://t.me/+UapHG23utrc5MDJl</a></p>
+        <p><strong>PPS:</strong> <a href="https://t.me/+4Ue_UZYoDikxMDFl" target="_blank">https://t.me/+4Ue_UZYoDikxMDFl</a></p>
+        <p><strong>LADC:</strong> <a href="https://t.me/+7eGvLVicfgs2ZmE1" target="_blank">https://t.me/+7eGvLVicfgs2ZmE1</a></p>
+    </div>
+
+    <script>
+        function proceedToSubjects() {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+
+            if (name && phone) {
+                document.getElementById('user-details').classList.add('hidden');
+                document.getElementById('subject-selection').classList.remove('hidden');
+            } else {
+                alert('Please fill in your name and phone number.');
+            }
+        }
+
+        function calculateTotal() {
+            const checkboxes = document.querySelectorAll('#subject-selection input[type="checkbox"]');
+            let total = 0;
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    total += parseInt(checkbox.value);
+                }
+            });
+            document.getElementById('total-price').textContent = total;
+        }
+
+        function proceedToPayment() {
+            document.getElementById('subject-selection').classList.add('hidden');
+            document.getElementById('payment-step').classList.remove('hidden');
+        }
+
+        function confirmPayment() {
+            document.getElementById('payment-step').classList.add('hidden');
+            document.getElementById('telegram-links').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
