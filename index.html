@@ -3,91 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subject Selection and Payment</title>
+    <title>Subject Payment</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            line-height: 1.6;
-        }
         .hidden {
             display: none;
+        }
+        .payment-info {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Subject Selection and Payment</h1>
+    <h1>Subject Payment Portal</h1>
     
-    <!-- Step 1: Collect User Details -->
-    <div id="user-details">
+    <!-- Step 1: User Details -->
+    <div id="user-details-step">
         <h2>Enter Your Details</h2>
         <label for="name">Name:</label>
         <input type="text" id="name" required><br><br>
         <label for="phone">Phone Number:</label>
-        <input type="text" id="phone" required><br><br>
-        <button onclick="proceedToSubjects()">Next</button>
+        <input type="tel" id="phone" required><br><br>
+        <button onclick="nextToSubjects()">Next</button>
     </div>
 
-    <!-- Step 2: Subject Selection -->
-    <div id="subject-selection" class="hidden">
+    <!-- Step 2: Select Subjects -->
+    <div id="subject-selection-step" class="hidden">
         <h2>Select Subjects</h2>
-        <label><input type="checkbox" value="199" onchange="calculateTotal()"> APM - ₹199</label><br>
-        <label><input type="checkbox" value="120" onchange="calculateTotal()"> PHY - ₹120</label><br>
-        <label><input type="checkbox" value="90" onchange="calculateTotal()"> PPS - ₹90</label><br>
-        <label><input type="checkbox" value="60" onchange="calculateTotal()"> LADY - ₹60</label><br><br>
-        <p>Total Price: ₹<span id="total-price">0</span></p>
-        <button onclick="proceedToPayment()">Next</button>
+        <label><input type="checkbox" value="199" onclick="updateTotal()"> APM - ₹199</label><br>
+        <label><input type="checkbox" value="120" onclick="updateTotal()"> PHY - ₹120</label><br>
+        <label><input type="checkbox" value="90" onclick="updateTotal()"> PPS - ₹90</label><br>
+        <label><input type="checkbox" value="60" onclick="updateTotal()"> LADY - ₹60</label><br><br>
+        <p id="total-price">Total Price: ₹0</p>
+        <button onclick="nextToPayment()">Next</button>
     </div>
 
     <!-- Step 3: Payment -->
     <div id="payment-step" class="hidden">
         <h2>Payment</h2>
         <p>Scan the QR code below to make the payment:</p>
-        <img src="qr-code.jpg" alt="QR Code" width="300"><br><br>
+        <img src="WhatsApp Image 2025-01-05 at 19.52.41_3a99fd9c.jpg" alt="QR Code" width="300"><br>
+        <p class="payment-info" id="payment-info"></p>
         <button onclick="confirmPayment()">I have completed the payment</button>
     </div>
 
-    <!-- Step 4: Redirect to Telegram Links -->
-    <div id="telegram-links" class="hidden">
-        <h2>Access Your Telegram Links</h2>
-        <p><strong>PHY:</strong> <a href="https://t.me/+V1UDIfNXPMxhMWVl" target="_blank">https://t.me/+V1UDIfNXPMxhMWVl</a></p>
-        <p><strong>APM:</strong> <a href="https://t.me/+UapHG23utrc5MDJl" target="_blank">https://t.me/+UapHG23utrc5MDJl</a></p>
-        <p><strong>PPS:</strong> <a href="https://t.me/+4Ue_UZYoDikxMDFl" target="_blank">https://t.me/+4Ue_UZYoDikxMDFl</a></p>
-        <p><strong>LADC:</strong> <a href="https://t.me/+7eGvLVicfgs2ZmE1" target="_blank">https://t.me/+7eGvLVicfgs2ZmE1</a></p>
+    <!-- Step 4: Telegram Links -->
+    <div id="confirmation-step" class="hidden">
+        <h2>Join Telegram Groups</h2>
+        <p>PHY - <a href="https://t.me/+V1UDIfNXPMxhMWVl" target="_blank">Link</a></p>
+        <p>APM - <a href="https://t.me/+UapHG23utrc5MDJl" target="_blank">Link</a></p>
+        <p>PPS - <a href="https://t.me/+4Ue_UZYoDikxMDFl" target="_blank">Link</a></p>
+        <p>LADC - <a href="https://t.me/+7eGvLVicfgs2ZmE1" target="_blank">Link</a></p>
     </div>
 
     <script>
-        function proceedToSubjects() {
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
+        let total = 0;
 
-            if (name && phone) {
-                document.getElementById('user-details').classList.add('hidden');
-                document.getElementById('subject-selection').classList.remove('hidden');
-            } else {
-                alert('Please fill in your name and phone number.');
-            }
+        function nextToSubjects() {
+            document.getElementById("user-details-step").classList.add("hidden");
+            document.getElementById("subject-selection-step").classList.remove("hidden");
         }
 
-        function calculateTotal() {
-            const checkboxes = document.querySelectorAll('#subject-selection input[type="checkbox"]');
-            let total = 0;
-            checkboxes.forEach(checkbox => {
+        function updateTotal() {
+            const checkboxes = document.querySelectorAll("#subject-selection-step input[type='checkbox']");
+            total = 0; // Reset total
+            checkboxes.forEach((checkbox) => {
                 if (checkbox.checked) {
                     total += parseInt(checkbox.value);
                 }
             });
-            document.getElementById('total-price').textContent = total;
+            document.getElementById("total-price").textContent = "Total Price: ₹" + total;
         }
 
-        function proceedToPayment() {
-            document.getElementById('subject-selection').classList.add('hidden');
-            document.getElementById('payment-step').classList.remove('hidden');
+        function nextToPayment() {
+            document.getElementById("subject-selection-step").classList.add("hidden");
+            document.getElementById("payment-step").classList.remove("hidden");
+            document.getElementById("payment-info").textContent = "Please pay the total amount: ₹" + total;
         }
 
         function confirmPayment() {
-            document.getElementById('payment-step').classList.add('hidden');
-            document.getElementById('telegram-links').classList.remove('hidden');
+            document.getElementById("payment-step").classList.add("hidden");
+            document.getElementById("confirmation-step").classList.remove("hidden");
         }
     </script>
 </body>
